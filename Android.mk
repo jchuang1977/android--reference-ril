@@ -40,8 +40,7 @@ LOCAL_CFLAGS += -Wno-unused-parameter
 ifeq (foo,foo)
   #build shared library
   LOCAL_CFLAGS += -DRIL_SHLIB
-  LOCAL_MODULE:= libreference-luat-ril
-  LOCAL_MODULE_PATH:= $(LOCAL_PATH)
+  LOCAL_MODULE:= libreference-ril
   include $(BUILD_SHARED_LIBRARY)
 else
   #build executable
@@ -65,8 +64,7 @@ LOCAL_LDLIBS += -llog
 LOCAL_SHARED_LIBRARIES := libcutils libutils
 #endif
 LOCAL_MODULE_TAGS:=eng optional
-LOCAL_MODULE:= chat-luat
-LOCAL_MODULE_PATH:= $(LOCAL_PATH)
+LOCAL_MODULE:= chat
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
