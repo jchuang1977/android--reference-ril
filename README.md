@@ -14,4 +14,4 @@
     
 ### 4. **驱动配置**
 
-    https://e3zt58hesn.feishu.cn/docx/ZjnGdKT13oj16dxpRtCcPfHknRb
+**移植请参考本仓库内的 [移植指南](./移植指南.md)**

@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <string.h>
 
-#define LOG_TAG "RIL"
+#define LOG_TAG "RIL_L_USB"
 #include <ril_log.h>
 
 #define USB_DEVICE_PATH "/sys/bus/usb/devices"
@@ -41,6 +41,7 @@ char* FindUsbDevice(int device_interface_id)
     char usb_device_prefix[MAX_PATH] = {0};
 
     LOGE("FindUsbDevice");
+    LOGE("open directory:%s/", dir);
 
     if ((pDir = opendir(dir)) == NULL)  {
         LOGE("Cannot open directory:%s/", dir);
@@ -102,15 +103,15 @@ char* FindUsbDevice(int device_interface_id)
         }
     }
 
-	if(usb_device_found)
-		memcpy(&ent_t,ent,sizeof(ent_t));
-
-
-
     closedir(pDir);
 
     if(!usb_device_found)
+    {
+        LOGE("usb device not found");
         return NULL;
+    }
+
+    memcpy(&ent_t,ent,sizeof(ent_t));
 
     /*second: find the entity */
     usb_device_found = false;
@@ -137,8 +138,12 @@ char* FindUsbDevice(int device_interface_id)
             }
         }
     }
+
+    if(!usb_device_found)
+        return NULL;
+
 	if(usb_device_found)
-			memcpy(&ent_t,ent,sizeof(ent_t));
+		memcpy(&ent_t,ent,sizeof(ent_t));
 
 
     closedir(pDir);
@@ -151,28 +156,51 @@ char* FindUsbDevice(int device_interface_id)
     usb_device_found = false;
     strcat(dir, "/");
     strcat(dir, ent_t.d_name);
-    // linux3.10.65 ttyxxx in tty folder
-    strcat(dir, "/tty");
+    /*
+    Linux3.10.65 ttyxxx in tty folder
+    In the a133 sdk(Linux 4.9 Android 10) example :
+        724 does not have tty folder
+        780e has tty folder in the device folder
+    scan device folder first
+    */
 
     LOGD("the file name %s", ent_t.d_name);
+    LOGD("open tty directory:%s/", dir);
 
     pDir = opendir(dir);
 
     while ((ent = readdir(pDir)) != NULL)  {
-
         sprintf(filename, "%s/%s", dir, ent->d_name);
-
         if(!strncmp(ent->d_name, "ttyUSB", strlen("ttyUSB")) || !strncmp(ent->d_name, "ttyACM", strlen("ttyACM")))
         {
             usb_device_found = true;
             break;
         }
     }
-    if(usb_device_found)
-			memcpy(&ent_t,ent,sizeof(ent_t));
+
+    if(usb_device_found){
+        memcpy(&ent_t,ent,sizeof(ent_t));
+    }else {
+        //Check subdirectories
+        strcat(dir, "/tty");
+        LOGD("open tty directory:%s/", dir);
+        pDir = opendir(dir);
+
+        while ((ent = readdir(pDir)) != NULL)  {
+            sprintf(filename, "%s/%s", dir, ent->d_name);
+            if(!strncmp(ent->d_name, "ttyUSB", strlen("ttyUSB")) || !strncmp(ent->d_name, "ttyACM", strlen("ttyACM")))
+            {
+                usb_device_found = true;
+                break;
+            }
+        }
+
+        if(usb_device_found){
+            memcpy(&ent_t,ent,sizeof(ent_t));
+        }
+    }
 
     closedir(pDir);
-
 
     if(usb_device_found)
         return &(ent_t.d_name);

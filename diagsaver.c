@@ -20,7 +20,7 @@
 #include <usb_find.h>
 #include<pthread.h>
 
-#define LOG_TAG "RIL"
+#define LOG_TAG "RIL_L_DS"
 #include <ril_log.h>
 
 

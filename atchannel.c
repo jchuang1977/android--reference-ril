@@ -30,7 +30,7 @@
 #include <unistd.h>
 
 #define LOG_NDEBUG 0
-#define LOG_TAG "AT"
+#define LOG_TAG "RIL_L_AT"
 #include "ril_log.h"
 
 

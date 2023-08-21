@@ -15,7 +15,7 @@
 #include <termios.h>
 #include <pthread.h>
 #include <stdbool.h>
-#define LOG_TAG "RIL"
+#define LOG_TAG "RIL_L_PPPD"
 #include <ril_log.h>
 
 #include <usb_find.h>

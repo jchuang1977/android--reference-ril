@@ -45,7 +45,7 @@
 
 #include <usb_find.h>
 
-#define LOG_TAG "RIL"
+#define LOG_TAG "RIL_L"
 #include <ril_log.h>
 
 #define MAX_AT_RESPONSE 0x1000
