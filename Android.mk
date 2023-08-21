@@ -19,6 +19,8 @@ LOCAL_SRC_FILES:= \
 LOCAL_SHARED_LIBRARIES := \
     libcutils libutils libril libnetutils
 
+LOCAL_PROPRIETARY_MODULE := true
+
 # for asprinf
 LOCAL_CFLAGS += -D_GNU_SOURCE -Wno-return-stack-address
 LOCAL_CFLAGS += -Wno-unused-function -Wno-unused-variable -Wno-unused-label
@@ -38,7 +40,6 @@ ifeq ($(TARGET_DEVICE),dream)
   LOCAL_CFLAGS += -DPOLL_CALL_STATE -DUSE_QMI
 endif
 
-LOCAL_CFLAGS += -Wno-unused-parameter
 ifeq (foo,foo)
   #build shared library
   LOCAL_CFLAGS += -DRIL_SHLIB
