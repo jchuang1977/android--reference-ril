@@ -24,7 +24,7 @@ LOCAL_PROPRIETARY_MODULE := true
 # for asprinf
 LOCAL_CFLAGS += -D_GNU_SOURCE -Wno-return-stack-address
 LOCAL_CFLAGS += -Wno-unused-function -Wno-unused-variable -Wno-unused-label
-LOCAL_CFLAGS += -Wno-incompatible-pointer-types -Wno-format -Wno-unused-function -Wno-return-stack-address
+LOCAL_CFLAGS += -Wno-incompatible-pointer-types -Wno-format -Wno-unused-function -Wno-return-stack-address -Wno-unused-parameter
 LOCAL_LDLIBS += -llog
 #LOCAL_C_INCLUDES := $(KERNEL_HEADERS)
 
